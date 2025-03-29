@@ -96,7 +96,7 @@ func (d *LonghornDevice) InitDevice() error {
 // call with lock hold
 func (d *LonghornDevice) initScsiDevice() error {
 	bsOpts := fmt.Sprintf("size=%v;request_timeout=%v", d.size, d.iscsiTargetRequestTimeout)
-	scsiDev, err := iscsidev.NewDevice(d.name, d.GetSocketPath(), "longhorn", bsOpts, d.scsiTimeout, d.iscsiAbortTimeout)
+	scsiDev, err := iscsidev.NewDevice(d.name, d.GetSocketPath(), "longhorn", bsOpts, "iscsi", d.scsiTimeout, d.iscsiAbortTimeout)
 	if err != nil {
 		return err
 	}

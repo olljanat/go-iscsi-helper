@@ -32,9 +32,9 @@ const (
 // CreateTarget will create a iSCSI target using the name specified. If name is
 // unspecified, a name will be generated. Notice the name must comply with iSCSI
 // name format.
-func CreateTarget(tid int, name string) error {
+func CreateTarget(tid int, driver, name string) error {
 	opts := []string{
-		"--lld", "iscsi",
+		"--lld", driver,
 		"--op", "new",
 		"--mode", "target",
 		"--tid", strconv.Itoa(tid),

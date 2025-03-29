@@ -45,13 +45,14 @@ type Device struct {
 	BackingFile string
 	BSType      string
 	BSOpts      string
+	Driver      string
 
 	targetID int
 
 	nsexec *lhns.Executor
 }
 
-func NewDevice(name, backingFile, bsType, bsOpts string, scsiTimeout, iscsiAbortTimeout int64) (*Device, error) {
+func NewDevice(name, backingFile, bsType, bsOpts, driver string, scsiTimeout, iscsiAbortTimeout int64) (*Device, error) {
 	namespaces := []lhtypes.Namespace{lhtypes.NamespaceMnt, lhtypes.NamespaceNet}
 	nsexec, err := lhns.NewNamespaceExecutor(util.ISCSIdProcess, lhtypes.HostProcDirectory, namespaces)
 	if err != nil {
@@ -69,6 +70,7 @@ func NewDevice(name, backingFile, bsType, bsOpts string, scsiTimeout, iscsiAbort
 		BackingFile: backingFile,
 		BSType:      bsType,
 		BSOpts:      bsOpts,
+		Driver:      driver,
 		nsexec:      nsexec,
 	}
 	return dev, nil
@@ -103,7 +105,7 @@ func (dev *Device) CreateTarget() (err error) {
 			return err
 		}
 		logrus.Infof("go-iscsi-helper: found available target id %v", tid)
-		err = iscsi.CreateTarget(tid, dev.Target)
+		err = iscsi.CreateTarget(tid, dev.Driver, dev.Target)
 		if err == nil {
 			dev.targetID = tid
 			break

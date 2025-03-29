@@ -84,7 +84,7 @@ func (s *TestSuite) TestFlow(c *C) {
 	c.Assert(err, IsNil)
 	c.Assert(tmptid, Equals, -1)
 
-	err = CreateTarget(tid, t)
+	err = CreateTarget(tid, "iscsi", t)
 	c.Assert(err, IsNil)
 
 	err = AddLunBackedByFile(tid, lun, s.imageFile)
@@ -199,7 +199,7 @@ func (s *TestSuite) TestAio(c *C) {
 	err = CheckForInitiatorExistence(s.nsexec)
 	c.Assert(err, IsNil)
 
-	err = CreateTarget(tid, t)
+	err = CreateTarget(tid, "iscsi", t)
 	c.Assert(err, IsNil)
 
 	err = AddLun(tid, lun, s.imageFile, "aio", "")
